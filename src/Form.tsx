@@ -1,5 +1,4 @@
 import * as React from "react";
-import { tsImportEqualsDeclaration } from "@babel/types";
 
 interface IFormContext {
   errors: IErrors;
@@ -51,6 +50,14 @@ export const minLength: Validator = (
 ): string =>
   values[fieldName] && values[fieldName].length < length
     ? `This must be at least ${length} characters`
+    : "";
+
+export const betweenNumbers: Validator = (
+  fieldName: string,
+  values: IValues
+): string =>
+  values[fieldName] < 1 || values[fieldName] > 10
+    ? `${values[fieldName]} is not in between (1, 10)`
     : "";
 
 interface IValidation {
@@ -215,7 +222,7 @@ export class Form extends React.Component<IFormProps, IState> {
         {context => (
           <div className="form-group">
             <label htmlFor={name}>{label}</label>
-            {(type === "Text" || type === "Email") && (
+            {(type === "Text" || type === "Email" || type === "Number") && (
               <input
                 type={type.toLowerCase()}
                 id={name}
@@ -274,7 +281,7 @@ interface IFormProps {
 interface IFieldProps {
   name: string;
   label: string;
-  type?: "Text" | "Email" | "Select" | "TextArea";
+  type?: "Text" | "Email" | "Select" | "TextArea" | "Number";
   options?: string[];
 }
 

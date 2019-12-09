@@ -1,6 +1,5 @@
 import * as React from "react";
 import ContactUs from "./ContactUs";
-import { watchFile } from "fs";
 import { ISubmitResult, IValues } from "./Form";
 
 // declaring a state type for this container component to store the state
@@ -9,6 +8,7 @@ interface IState {
   email: string;
   reason: string;
   notes: string;
+  urgency: number;
 }
 
 const wait = (ms: number): Promise<void> => {
