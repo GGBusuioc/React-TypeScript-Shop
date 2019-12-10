@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint:recommended", "tslint-react", "tslintconfig-prettier"],
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "rules": {
     "ordered-imports": false,
     "object-literal-sort-keys": false,

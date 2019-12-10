@@ -1,13 +1,5 @@
 import * as React from "react";
-import ContactUsPage from "./ContactUsPage";
-import {
-  Form,
-  ISubmitResult,
-  IValues,
-  minLength,
-  required,
-  betweenNumbers
-} from "./Form";
+import { Form, ISubmitResult, IValues, minLength, required } from "./Form";
 
 interface IProps {
   onSubmit: (values: IValues) => Promise<ISubmitResult>;
@@ -20,19 +12,12 @@ const ContactUs: React.SFC<IProps> = props => {
   };
   return (
     <Form
-      defaultValues={{
-        name: "",
-        email: "",
-        reason: "Support",
-        notes: "",
-        urgency: ""
-      }}
+      onSubmit={handleSubmit}
+      defaultValues={{ name: "", email: "", reason: "Support", notes: "" }}
       validationRules={{
         email: { validator: required },
-        name: [{ validator: required }, { validator: minLength, arg: 2 }],
-        urgency: { validator: betweenNumbers }
+        name: [{ validator: required }, { validator: minLength, arg: 2 }]
       }}
-      onSubmit={handleSubmit}
     >
       <Form.Field name="name" label="Your name" />
       <Form.Field name="email" label="Your email address" type="Email" />
@@ -43,9 +28,7 @@ const ContactUs: React.SFC<IProps> = props => {
         options={["Marketing", "Support", "Feedback", "Jobs", "Other"]}
       />
       <Form.Field name="notes" label="Additional notes" type="TextArea" />
-      <Form.Field name="urgency" label="Urgency" type="Number" />
     </Form>
   );
 };
-
 export default ContactUs;

@@ -17,13 +17,14 @@ const AdminPage: React.SFC = () => {
           </NavLink>
         </li>
       </ul>
-      <p>You should only be here if you have logged in</p>
-      <ul>
-        <Route path="/admin/users" component={AdminUsers} />
-        <Route path="/admin/products" component={AdminProducts} />
-      </ul>
+      <Route path="/admin/users" component={AdminUsers} />
+      <Route path="/admin/products" component={AdminProducts} />
     </div>
   );
+};
+
+const AdminProducts: React.SFC = () => {
+  return <div>Some options to administer products</div>;
 };
 
 interface IUser {
@@ -31,13 +32,11 @@ interface IUser {
   name: string;
   isAdmin: boolean;
 }
-
 const adminUsersData: IUser[] = [
   { id: 1, name: "Fred", isAdmin: true },
-  { id: 2, name: "Mike", isAdmin: false },
-  { id: 3, name: "Alex", isAdmin: true }
+  { id: 2, name: "Bob", isAdmin: false },
+  { id: 3, name: "Jane", isAdmin: true }
 ];
-
 const AdminUsers: React.SFC = () => {
   return (
     <div>
@@ -70,23 +69,13 @@ const AdminUser: React.SFC<RouteComponentProps<{ id: string }>> = props => {
     <div>
       <div>
         <b>Id: </b>
-        <span>
-          <i>{user.id.toString()}</i>
-        </span>
+        <span>{user.id.toString()}</span>
       </div>
       <div>
-        <b>is Admin: </b>
-        <span>
-          <i>{user.isAdmin.toString()}</i>
-        </span>
+        <b>Is Admin: </b>
+        <span>{user.isAdmin.toString()}</span>
       </div>
     </div>
   );
-  return null;
 };
-
-const AdminProducts: React.SFC = () => {
-  return <div>Some options to administer products</div>;
-};
-
 export default AdminPage;

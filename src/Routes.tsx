@@ -3,63 +3,23 @@ import {
   BrowserRouter as Router,
   Redirect,
   Route,
-  Switch,
-  RouteComponentProps
+  RouteComponentProps,
+  Switch
 } from "react-router-dom";
+
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { Suspense } from "react";
 
-import ProductsPage from "./ProductsPage";
-import ProductPage from "./ProductPage";
-import Header from "./Header";
-import NotFoundPage from "./NotFoundPage";
-import LoginPage from "./LoginPage";
+import AdminPage from "./AdminPage";
 import ContactUsPage from "./ContactUsPage";
+import Header from "./Header";
+import LoginPage from "./LoginPage";
+import NotFoundPage from "./NotFoundPage";
+import ProductPage from "./ProductPage";
+import ProductsPage from "./ProductsPage";
 
-// import AdminPage from "./AdminPage";
-const AdminPage = React.lazy(() => import("./AdminPage"));
-
-// implementing a function component in a typescript file
-
-const Routes: React.SFC<RouteComponentProps> = props => {
-  const [loggedIn, setLoggedIn] = React.useState(true);
-  return (
-    <div>
-      <Header />
-      <TransitionGroup>
-        <CSSTransition
-          key={props.location.key}
-          timeout={500}
-          classNames="animate"
-        >
-          <Switch>
-            <Redirect exact={true} from="/" to="/products"></Redirect>
-            <Route exact={true} path="/products" component={ProductsPage} />
-            <Route path="/products/:id" component={ProductPage} />
-            <Route path="/contactus" component={ContactUsPage} />
-            <Route path="/admin" component={AdminPage}>
-              {loggedIn ? (
-                <Suspense
-                  fallback={
-                    <div className="page-container">
-                      Loading, please wait...
-                    </div>
-                  }
-                >
-                  <AdminPage />
-                </Suspense>
-              ) : (
-                <Redirect to="/login" />
-              )}
-            </Route>
-            <Route path="/login" component={LoginPage} />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </CSSTransition>
-      </TransitionGroup>
-    </div>
-  );
-};
+interface IState {
+  loggedIn: boolean;
+}
 
 const RoutesWrap: React.SFC = () => {
   return (
@@ -68,5 +28,40 @@ const RoutesWrap: React.SFC = () => {
     </Router>
   );
 };
+
+class Routes extends React.Component<RouteComponentProps, IState> {
+  public constructor(props: RouteComponentProps) {
+    super(props);
+    this.state = {
+      loggedIn: true
+    };
+  }
+  public render() {
+    return (
+      <div>
+        <Header />
+        <TransitionGroup>
+          <CSSTransition
+            key={this.props.location.key}
+            timeout={500}
+            classNames="animate"
+          >
+            <Switch>
+              <Redirect exact={true} from="/" to="/products" />
+              <Route path="/products/:id" component={ProductPage} />
+              <Route exact={true} path="/products" component={ProductsPage} />
+              <Route path="/contactus" component={ContactUsPage} />
+              <Route path="/admin">
+                {this.state.loggedIn ? <AdminPage /> : <Redirect to="/login" />}
+              </Route>
+              <Route path="/login" component={LoginPage} />
+              <Route component={NotFoundPage} />
+            </Switch>
+          </CSSTransition>
+        </TransitionGroup>
+      </div>
+    );
+  }
+}
 
 export default RoutesWrap;

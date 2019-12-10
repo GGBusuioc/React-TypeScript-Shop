@@ -4,17 +4,20 @@ interface ITabsContext {
   activeName?: string;
   handleTabClick?: (name: string, content: React.ReactNode) => void;
 }
+
 const TabsContext = React.createContext<ITabsContext>({});
 
-interface IState {
-  activeName: string;
-  activeContent: React.ReactNode;
-}
 interface ITabProps {
   name: string;
   initialActive?: boolean;
   heading: () => string | JSX.Element;
 }
+
+interface IState {
+  activeName: string;
+  activeContent: React.ReactNode;
+}
+
 class Tabs extends React.Component<{}, IState> {
   public static Tab: React.SFC<ITabProps> = props => (
     <TabsContext.Consumer>
@@ -28,8 +31,8 @@ class Tabs extends React.Component<{}, IState> {
         const activeName = context.activeName
           ? context.activeName
           : props.initialActive
-          ? props.name
-          : "";
+            ? props.name
+            : "";
         const handleTabClick = (e: React.MouseEvent<HTMLLIElement>) => {
           if (context.handleTabClick) {
             context.handleTabClick(props.name, props.children);
@@ -46,6 +49,7 @@ class Tabs extends React.Component<{}, IState> {
       }}
     </TabsContext.Consumer>
   );
+
   public render() {
     return (
       <TabsContext.Provider

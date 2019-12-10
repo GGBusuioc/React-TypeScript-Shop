@@ -1,16 +1,13 @@
-import { watchFile } from "fs";
-
+export interface IReview {
+  comment: string;
+  reviewer: string;
+}
 export interface IProduct {
   id: number;
   name: string;
   description: string;
   price: number;
   reviews: IReview[];
-}
-
-export interface IReview {
-  comment: string;
-  reviewer: string;
 }
 
 export const products: IProduct[] = [
@@ -23,9 +20,12 @@ export const products: IProduct[] = [
     reviews: [
       {
         comment: "Excellent! This does everything I want",
-        reviewer: "Mike"
+        reviewer: "Billy"
       },
-      { comment: "The best router I've ever worked with", reviewer: "Fred" }
+      {
+        comment: "The best router I've ever worked with",
+        reviewer: "Sally"
+      }
     ]
   },
   {
@@ -36,11 +36,11 @@ export const products: IProduct[] = [
     reviews: [
       {
         comment: "I've found this really useful in a large app I'm working on",
-        reviewer: "Alex"
+        reviewer: "Billy"
       },
       {
         comment: "A bit confusing at first but simple when you get used to it",
-        reviewer: "Mike"
+        reviewer: "Sally"
       }
     ]
   },
@@ -52,22 +52,27 @@ export const products: IProduct[] = [
     reviews: [
       {
         comment: "I'll never work with a REST API again!",
-        reviewer: "Fred"
+        reviewer: "Billy"
       },
       {
         comment: "It makes working with GraphQL backends a breeze",
-        reviewer: "Alex"
+        reviewer: "Sally"
       }
     ]
   }
 ];
 
-const wait = (ms: number): Promise<void> => {
-  return new Promise(resolve => setTimeout(resolve, ms));
+export const getProducts = async (): Promise<IProduct[]> => {
+  await wait(1000);
+  return products;
 };
 
 export const getProduct = async (id: number): Promise<IProduct | null> => {
   await wait(1000);
   const foundProducts = products.filter(customer => customer.id === id);
   return foundProducts.length === 0 ? null : foundProducts[0];
+};
+
+const wait = (ms: number): Promise<void> => {
+  return new Promise(resolve => setTimeout(resolve, ms));
 };
