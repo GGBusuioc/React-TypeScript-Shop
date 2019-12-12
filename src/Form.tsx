@@ -139,13 +139,15 @@ export class Form extends React.Component<IFormProps, IState> {
                   ))}
               </select>
             )}
-            {context.errors[name] &&
-              context.errors[name].length > 0 &&
-              context.errors[name].map(error => (
-                <span key={error} className="form-error">
-                  {error}
-                </span>
-              ))}
+            {context.errors[name] && context.errors[name].length > 0 && (
+              <div data-testid="formErrors">
+                {context.errors[name].map(error => (
+                  <span key={error} className="form-error">
+                    {error}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </FormContext.Consumer>
@@ -174,7 +176,7 @@ export class Form extends React.Component<IFormProps, IState> {
     return (
       <FormContext.Provider value={context}>
         <form className="form" noValidate={true} onSubmit={this.handleSubmit}>
-          {this.props.children}
+          <div>{this.props.children}</div>
           <div className="form-group">
             <button
               type="submit"
